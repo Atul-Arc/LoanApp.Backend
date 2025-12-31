@@ -1,6 +1,9 @@
 using LoanApp.Application.Configuration;
 using LoanApp.Application.Interfaces;
+using LoanApp.Infrastructure.Data;
+using LoanApp.Infrastructure.Queries;
 using LoanApp.Infrastructure.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 public class Program
@@ -16,6 +19,11 @@ public class Program
         {
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "LoanApp API", Version = "v1" });
         });
+
+        builder.Services.AddDbContext<LoanAppDbContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("LoanApp")));
+
+        builder.Services.AddScoped<ILoanTypeQuery, LoanTypeQuery>();
 
         // Chat (Azure AI Foundry / Azure OpenAI)
         builder.Services.AddOptions<FoundryChatOptions>()
