@@ -1,3 +1,4 @@
+using LoanApp.Api.Middleware;
 using LoanApp.Application.Configuration;
 using LoanApp.Application.Interfaces;
 using LoanApp.Infrastructure.Data;
@@ -24,6 +25,7 @@ public class Program
             options.UseSqlServer(builder.Configuration.GetConnectionString("LoanApp")));
 
         builder.Services.AddScoped<ILoanTypeQuery, LoanTypeQuery>();
+        builder.Services.AddScoped<ILoanEligibilityService, LoanEligibilityService>();
 
         // Chat (Azure AI Foundry / Azure OpenAI)
         builder.Services.AddOptions<FoundryChatOptions>()
@@ -66,6 +68,9 @@ public class Program
         }
 
         // app.UseHttpsRedirection();
+
+        // Centralized exception handling should be early in the pipeline.
+        app.UseMiddleware<ApiExceptionHandlingMiddleware>();
 
         app.UseCors();
 

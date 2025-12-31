@@ -9,10 +9,12 @@ namespace LoanApp.Api.Controllers;
 public sealed class LoanController : ControllerBase
 {
     private readonly ILoanTypeQuery _loanTypes;
+    private readonly ILoanEligibilityService _eligibility;
 
-    public LoanController(ILoanTypeQuery loanTypes)
+    public LoanController(ILoanTypeQuery loanTypes, ILoanEligibilityService eligibility)
     {
         _loanTypes = loanTypes;
+        _eligibility = eligibility;
     }
 
     // GET /api/Loan/loantypes
@@ -21,5 +23,14 @@ public sealed class LoanController : ControllerBase
     {
         var items = await _loanTypes.GetActiveLoanTypesAsync(cancellationToken);
         return Ok(items);
+    }
+
+    // POST /api/Loan/check-eligibility
+    [HttpPost("check-eligibility")]
+    public async Task<ActionResult<CheckLoanEligibilityResponse>> CheckEligibility(
+        [FromBody] CheckLoanEligibilityRequest request, CancellationToken cancellationToken)
+    {
+        var result = await _eligibility.CheckEligibilityAsync(request, cancellationToken);
+        return Ok(result);
     }
 }
