@@ -402,5 +402,6 @@ FodyWeavers.xsd
 *.copilot/
 copilot-*.log
 .github-copilot/
+
+# Keep local-only overrides out of git
 /appsettings.Development.json
-/appsettings.json
