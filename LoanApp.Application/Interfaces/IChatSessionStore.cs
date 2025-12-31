@@ -1,6 +1,6 @@
-using LoanApp.Api.Models;
+using LoanApp.Domain;
 
-namespace LoanApp.Api.Services;
+namespace LoanApp.Application.Interfaces;
 
 public interface IChatSessionStore
 {

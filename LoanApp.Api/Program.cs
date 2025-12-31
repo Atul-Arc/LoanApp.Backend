@@ -1,7 +1,6 @@
-using LoanApp.Api.Services;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using LoanApp.Application.Configuration;
+using LoanApp.Application.Interfaces;
+using LoanApp.Infrastructure.Services;
 using Microsoft.OpenApi.Models;
 
 public class Program
@@ -27,7 +26,7 @@ public class Program
             .ValidateOnStart();
 
         builder.Services.AddSingleton<IChatSessionStore, InMemoryChatSessionStore>();
-        builder.Services.AddSingleton<FoundryChatClient>();
+        builder.Services.AddSingleton<IChatService, FoundryChatClient>();
 
         // Add CORS services
         builder.Services.AddCors(options =>

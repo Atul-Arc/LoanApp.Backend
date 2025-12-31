@@ -1,7 +1,9 @@
-using LoanApp.Api.Models;
-using LoanApp.Api.Services;
+using LoanApp.Application.Configuration;
+using LoanApp.Application.Dtos;
+using LoanApp.Application.Interfaces;
+using LoanApp.Domain;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace LoanApp.Api.Controllers;
 
@@ -11,10 +13,10 @@ public sealed class ChatController : ControllerBase
 {
     private readonly ILogger<ChatController> _logger;
     private readonly IChatSessionStore _store;
-    private readonly FoundryChatClient _chat;
+    private readonly IChatService _chat;
     private readonly FoundryChatOptions _options;
 
-    public ChatController(ILogger<ChatController> logger, IChatSessionStore store, FoundryChatClient chat, Microsoft.Extensions.Options.IOptions<FoundryChatOptions> options)
+    public ChatController(ILogger<ChatController> logger, IChatSessionStore store, IChatService chat, IOptions<FoundryChatOptions> options)
     {
         _logger = logger;
         _store = store;
@@ -75,8 +77,4 @@ public sealed class ChatController : ControllerBase
         _store.Clear(sessionId.Trim());
         return NoContent();
     }
-
-    public sealed record ChatRequest(string SessionId, string User, string Message);
-
-    public sealed record ChatResponse(string SessionId, string Reply, DateTimeOffset TimestampUtc);
 }

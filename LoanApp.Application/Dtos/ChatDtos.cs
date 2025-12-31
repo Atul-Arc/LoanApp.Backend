@@ -1,6 +1,4 @@
-namespace LoanApp.Api.Models;
-
-public sealed record ChatMessage(string Role, string Content);
+namespace LoanApp.Application.Dtos;
 
 public sealed record ChatRequest(
  string SessionId,

@@ -2,10 +2,12 @@ using Microsoft.Extensions.Options;
 using OpenAI;
 using OpenAI.Chat;
 using System.ClientModel;
+using LoanApp.Application.Configuration;
+using LoanApp.Application.Interfaces;
 
-namespace LoanApp.Api.Services;
+namespace LoanApp.Infrastructure.Services;
 
-public sealed class FoundryChatClient
+public sealed class FoundryChatClient : IChatService
 {
     private readonly FoundryChatOptions _options;
 
@@ -14,7 +16,7 @@ public sealed class FoundryChatClient
         _options = options.Value;
     }
 
-    public async Task<string> GetReplyAsync(IReadOnlyList<LoanApp.Api.Models.ChatMessage> history, CancellationToken cancellationToken)
+    public async Task<string> GetReplyAsync(IReadOnlyList<LoanApp.Domain.ChatMessage> history, CancellationToken cancellationToken)
     {
         if (string.IsNullOrWhiteSpace(_options.Endpoint))
             throw new InvalidOperationException("FoundryChat:Endpoint is not configured.");
