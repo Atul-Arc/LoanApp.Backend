@@ -54,10 +54,10 @@ The solution follows a layered (Clean Architecture) layout:
 
 Projects:
 
-- `LoanApp.Api` – Web API host
-- `LoanApp.Infrastructure` – persistence & integrations
-- `LoanApp.Application` – application layer
-- `LoanApp.Domain` – domain layer
+- `LoanApp.Api` â€“ Web API host
+- `LoanApp.Infrastructure` â€“ persistence & integrations
+- `LoanApp.Application` â€“ application layer
+- `LoanApp.Domain` â€“ domain layer
 
 ---
 
@@ -73,8 +73,8 @@ Projects:
 
 Configuration files:
 
-- `LoanApp.Api/appsettings.json` – template defaults
-- `LoanApp.Api/appsettings.Development.json` – local development overrides
+- `LoanApp.Api/appsettings.json` â€“ template defaults
+- `LoanApp.Api/appsettings.Development.json` â€“ local development overrides
 
 Key settings:
 
@@ -270,4 +270,4 @@ Before publishing to a public repo:
 
 ## License
 
-Add a license file (MIT/Apache-2.0/etc.) appropriate for your intended usage.
+Appropriate for your intended usage.
