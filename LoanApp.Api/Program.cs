@@ -27,7 +27,7 @@ public class Program
         builder.Services.AddScoped<ILoanTypeQuery, LoanTypeQuery>();
         builder.Services.AddScoped<ILoanEligibilityService, LoanEligibilityService>();
 
-        // Chat (Azure AI Foundry / Azure OpenAI)
+        // Chat (Azure AI Foundry / Azure OpenAI) - legacy
         builder.Services.AddOptions<FoundryChatOptions>()
             .Bind(builder.Configuration.GetSection(FoundryChatOptions.SectionName))
             .Validate(o => !string.IsNullOrWhiteSpace(o.Endpoint), "FoundryChat:Endpoint is required")
@@ -35,8 +35,16 @@ public class Program
             .Validate(o => !string.IsNullOrWhiteSpace(o.ApiKey), "FoundryChat:ApiKey is required")
             .ValidateOnStart();
 
+        // Chat (Azure AI Foundry Agent via Azure AI Projects) - v2
+        builder.Services.AddOptions<FoundryChatV2Options>()
+            .Bind(builder.Configuration.GetSection(FoundryChatV2Options.SectionName))
+            .Validate(o => !string.IsNullOrWhiteSpace(o.Endpoint), "FoundryChatV2:Endpoint is required")
+            .Validate(o => !string.IsNullOrWhiteSpace(o.AgentName), "FoundryChatV2:AgentName is required")
+            .ValidateOnStart();
+
         builder.Services.AddSingleton<IChatSessionStore, InMemoryChatSessionStore>();
         builder.Services.AddSingleton<IChatService, FoundryChatClient>();
+        builder.Services.AddSingleton<IChatV2Service, FoundryChatV2Client>();
 
         // Add CORS services
         builder.Services.AddCors(options =>
